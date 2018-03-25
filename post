@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#Start with the GNU/date command that displays current date
+#An operand with a leading plus(+) precedes a user-defined format string
+today=$(date +"%Y")-$(date +"%m")-$(date +"%d")
+filename=$today
+title=""
+
+#In the while loop we use $# to get number of arguments, the shift command 
+#moves positional parameters one position back, and decreases  
+#number of arguments by one
+while [[ $# -gt 1 ]]; do 
+    filename=$filename-$1
+    title="$title $1"
+    shift
+done
+
+#add the final title word and file extension
+filename=$filename-$1.markdown
+#title variable for header
+title="$title $1"
+#create file
+touch $filename
+#add header
+header="---\nlayout: post\ntitle: $title\ndate: $today\ncategories: \n---"
+echo -e $header > $filename
